@@ -1,8 +1,5 @@
 package trashytop.adventofcode.advent2020;
 
-import trashytop.adventofcode.Day;
-import trashytop.adventofcode.Util;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
@@ -11,7 +8,10 @@ import java.util.regex.Pattern;
 
 import lombok.Data;
 import lombok.NonNull;
+import trashytop.adventofcode.Day;
+import trashytop.adventofcode.Util;
 
+// https://adventofcode.com/2020/day/2
 public class Day2 implements Day {
 
   private List<String> lines;
@@ -23,47 +23,49 @@ public class Day2 implements Day {
   public void solve() throws IOException {
     lines = Util.buildArrayOfLinesFromFile("advent2020/day2/input.txt");
 
-    Predicate<Password> counter1 = (day2 -> {
-      long count = day2.s.chars().filter(ch -> ch == day2.c).count();
-      return (count >= day2.x && count <= day2.y);
+    Predicate<PasswordWithSpec> passwordChecker1 = (passwordWithSpec -> {
+      long count = passwordWithSpec.password.chars().filter(ch -> ch == passwordWithSpec.letter).count();
+      return (count >= passwordWithSpec.minTimesLetterMustAppear && count <= passwordWithSpec.maxTimesLetterMustAppear);
     });
-    System.out.println("#1: Valid password count:" + getCount(counter1));
+    System.out.println("#1: Valid password count:" + getCount(passwordChecker1));
 
-    Predicate<Password> counter2 = (day2 -> {
-      Boolean pos1Match = day2.s.charAt(day2.x - 1) == day2.c;
-      Boolean pos2Match = day2.s.charAt(day2.y - 1) == day2.c;
+    Predicate<PasswordWithSpec> passwordChecker2 = (passwordWithSpec -> {
+      Boolean pos1Match = passwordWithSpec.password.charAt(passwordWithSpec.minTimesLetterMustAppear - 1) ==
+          passwordWithSpec.letter;
+      Boolean pos2Match = passwordWithSpec.password.charAt(passwordWithSpec.maxTimesLetterMustAppear - 1) ==
+          passwordWithSpec.letter;
       return ((pos1Match || pos2Match) && !(pos1Match && pos2Match));
     });
-    System.out.println("#2: Valid password count:" + getCount(counter2));
+    System.out.println("#2: Valid password count:" + getCount(passwordChecker2));
   }
 
-  private long getCount(Predicate<Password> counter) {
-    // parse x-y c: s for each line
+  private long getCount(Predicate<PasswordWithSpec> passwordChecker) {
+    // parse for each line
     Pattern pattern = Pattern.compile("([0-9]{1,2})-([0-9]{1,2}) ([a-z]): ([a-z]+)");
     return lines
         .stream()
         .filter(line -> {
           Matcher matcher = pattern.matcher(line);
           matcher.find();
-          Password day2 = new Password(Integer.parseInt(matcher.group(1)),
+          PasswordWithSpec passwordWithSpec = new PasswordWithSpec(Integer.parseInt(matcher.group(1)),
               Integer.parseInt(matcher.group(2)),
               matcher.group(3).charAt(0),
               matcher.group(4));
-          return counter.test(day2);
+          return passwordChecker.test(passwordWithSpec);
         })
         .count();
   }
 
   @Data
-  static class Password {
+  static class PasswordWithSpec {
     @NonNull
-    private int x;
+    private int minTimesLetterMustAppear;
     @NonNull
-    private int y;
+    private int maxTimesLetterMustAppear;
     @NonNull
-    private char c;
+    private char letter;
     @NonNull
-    private String s;
+    private String password;
   }
 
 }

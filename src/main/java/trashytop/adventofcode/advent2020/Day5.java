@@ -4,6 +4,7 @@ import trashytop.adventofcode.Day;
 
 import java.io.IOException;
 
+// https://adventofcode.com/2020/day/5
 public class Day5 implements Day {
 
   public String getName() {

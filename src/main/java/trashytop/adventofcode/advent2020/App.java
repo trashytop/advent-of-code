@@ -10,8 +10,8 @@ public class App {
 
   public static void main(String[] args) {
     List<Day> days = new ArrayList<>(
-        //List.of(new Day1(), new Day2(), new Day3(), new Day4()));
-        List.of(new Day5()));
+        List.of(new Day1(), new Day2(), new Day3(), new Day4()));
+        //List.of(new Day5()));
 
     solve(days);
   }

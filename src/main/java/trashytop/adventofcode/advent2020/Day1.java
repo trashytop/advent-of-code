@@ -6,6 +6,7 @@ import trashytop.adventofcode.Util;
 import java.io.IOException;
 import java.util.List;
 
+// https://adventofcode.com/2020/day/1
 public class Day1 implements Day {
 
   private List<Integer> numbers;
@@ -17,7 +18,7 @@ public class Day1 implements Day {
   public void solve() throws IOException {
     numbers = Util.buildArrayOfIntegersFromFile("advent2020/day1/input.txt");
 
-    // find first triple that sums to 2020
+    // find product of first two entries that sum to 2020
     loopDouble:
     for (int index1 = 0; index1 < numbers.size(); index1++) {
       for (int index2 = 0; index2 < numbers.size(); index2++) {
@@ -30,7 +31,7 @@ public class Day1 implements Day {
       }
     }
 
-    // find first triple that sums to 2020
+    // find product of first three entries that sum to 2020
     loopTriple:
     for (int index1 = 0; index1 < numbers.size(); index1++) {
       for (int index2 = 0; index2 < numbers.size(); index2++) {

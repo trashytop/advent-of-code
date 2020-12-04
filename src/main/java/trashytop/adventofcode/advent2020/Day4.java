@@ -10,6 +10,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// https://adventofcode.com/2020/day/4
 public class Day4 implements Day {
 
   public String getName() {
@@ -19,7 +20,7 @@ public class Day4 implements Day {
   public void solve() throws IOException {
     File file = Util.getFile("advent2020/day4/input.txt");
 
-    // build array of lines from file
+    // build passports from file
     Scanner scanner = new Scanner(file);
     HashMap<String, String> passport = new HashMap<>();
     int requiredFieldsPassportCount = 0;
@@ -42,6 +43,11 @@ public class Day4 implements Day {
       } else {
         scanner.next();
       }
+    }
+
+    // check last passport
+    if (hasRequiredFieldsPassport(passport)) {
+      requiredFieldsPassportCount++;
     }
     if (isValidPassport(passport)) {
       validPassportCount++;
