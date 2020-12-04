@@ -17,7 +17,7 @@ public class Day4 implements Day {
   }
 
   public void solve() throws IOException {
-    File file = Util.getFile("day4/input.txt");
+    File file = Util.getFile("advent2020/day4/input.txt");
 
     // build array of lines from file
     Scanner scanner = new Scanner(file);

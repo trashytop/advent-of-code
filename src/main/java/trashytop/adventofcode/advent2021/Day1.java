@@ -14,7 +14,7 @@ public class Day1 implements Day {
   }
 
   public void solve() throws IOException {
-    //File file = Util.getFile("day1/input.txt");
+    //File file = Util.getFile("advent2021/day1/input.txt");
   }
 
 }

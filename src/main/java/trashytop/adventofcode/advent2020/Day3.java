@@ -16,7 +16,7 @@ public class Day3 implements Day {
   }
 
   public void solve() throws IOException {
-    lines = Util.buildArrayOfLinesFromFile("day3/input.txt");
+    lines = Util.buildArrayOfLinesFromFile("advent2020/day3/input.txt");
     gridWidth = lines.get(0).length();
 
     int right1_down1 = treesHit(1, 1);

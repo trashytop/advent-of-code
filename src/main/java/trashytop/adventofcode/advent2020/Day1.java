@@ -15,7 +15,7 @@ public class Day1 implements Day {
   }
 
   public void solve() throws IOException {
-    numbers = Util.buildArrayOfIntegersFromFile("day1/stars_input.txt");
+    numbers = Util.buildArrayOfIntegersFromFile("advent2020/day1/input.txt");
 
     // find first triple that sums to 2020
     loopDouble:
