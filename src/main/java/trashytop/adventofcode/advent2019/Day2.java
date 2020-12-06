@@ -1,6 +1,7 @@
 package trashytop.adventofcode.advent2019;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,8 @@ public class Day2 implements Day {
 
     program = Util.extractGenericFromFile("advent2019/day2/input.txt", ",", Integer::parseInt);
 
-    List<Integer> programCopy = program.stream().map(Integer::new).collect(Collectors.toList());
+    // deep copy
+    List<Integer> programCopy = new ArrayList<>(program);
 
     // reset state to just before the last computer caught fire
     set(1, 12);
@@ -31,7 +33,7 @@ public class Day2 implements Day {
     loopDouble:
     for (int noun = 0; noun <= 99; noun++) {
       for (int verb = 0; verb <= 99; verb++) {
-        program = programCopy.stream().map(Integer::new).collect(Collectors.toList());
+        program = new ArrayList<>(programCopy);
         set(1, noun);
         set(2, verb);
         runProgram();
