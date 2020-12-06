@@ -1,9 +1,9 @@
 package trashytop.adventofcode.advent2021;
 
-import trashytop.adventofcode.Day;
-
 import java.io.IOException;
 import java.util.List;
+
+import trashytop.adventofcode.Day;
 
 public class Day1 implements Day {
 

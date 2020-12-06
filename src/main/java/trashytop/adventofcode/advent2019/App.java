@@ -1,4 +1,4 @@
-package trashytop.adventofcode.advent2021;
+package trashytop.adventofcode.advent2019;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,9 +10,8 @@ public class App {
 
   public static void main(String[] args) {
     List<Day> days = new ArrayList<>(
-        //List.of(new Day1(), new Day2(), new Day3(), new Day4()));
-        List.of(new Day1()));
-
+        //List.of(new Day1(), new Day2(), new Day3(), new Day4(), new Day5(), new Day6(), new Day7()));
+        List.of(new Day2()));
     solve(days);
   }
 

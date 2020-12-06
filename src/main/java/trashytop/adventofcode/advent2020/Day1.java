@@ -1,10 +1,10 @@
 package trashytop.adventofcode.advent2020;
 
-import trashytop.adventofcode.Day;
-import trashytop.adventofcode.Util;
-
 import java.io.IOException;
 import java.util.List;
+
+import trashytop.adventofcode.Day;
+import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/1
 public class Day1 implements Day {
@@ -16,7 +16,7 @@ public class Day1 implements Day {
   }
 
   public void solve() throws IOException {
-    numbers = Util.buildArrayOfIntegersFromFile("advent2020/day1/input.txt");
+    numbers = Util.extractIntegersFromFile("advent2020/day1/input.txt");
 
     // find product of first two entries that sum to 2020
     loopDouble:

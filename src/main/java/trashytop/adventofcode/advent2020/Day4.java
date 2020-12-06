@@ -1,8 +1,5 @@
 package trashytop.adventofcode.advent2020;
 
-import trashytop.adventofcode.Day;
-import trashytop.adventofcode.Util;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,8 +7,14 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import trashytop.adventofcode.Day;
+import trashytop.adventofcode.Util;
+
 // https://adventofcode.com/2020/day/4
 public class Day4 implements Day {
+
+  private int requiredFieldsPassportCount = 0;
+  private int validPassportCount = 0;
 
   public String getName() {
     return "Day 4: Passport Processing";
@@ -23,8 +26,6 @@ public class Day4 implements Day {
     // build passports from file
     Scanner scanner = new Scanner(file);
     HashMap<String, String> passport = new HashMap<>();
-    int requiredFieldsPassportCount = 0;
-    int validPassportCount = 0;
     while (scanner.hasNext()) {
       if (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -32,29 +33,28 @@ public class Day4 implements Day {
           String[] keyVals = line.split(" ");
           buildPassport(passport, keyVals);
         } else {
-          if (hasRequiredFieldsPassport(passport)) {
-            requiredFieldsPassportCount++;
-          }
-          if (isValidPassport(passport)) {
-            validPassportCount++;
-          }
+          processPassport(passport);
+          // clear down ready for next passport in file
           passport = new HashMap<>();
         }
       } else {
         scanner.next();
       }
     }
+    // process last passport
+    processPassport(passport);
 
-    // check last passport
+    System.out.println("#1: Valid passport count:" + requiredFieldsPassportCount);
+    System.out.println("#2: Valid passport count:" + validPassportCount);
+  }
+
+  public void processPassport(HashMap<String, String> passport) {
     if (hasRequiredFieldsPassport(passport)) {
       requiredFieldsPassportCount++;
     }
     if (isValidPassport(passport)) {
       validPassportCount++;
     }
-
-    System.out.println("#1:" + requiredFieldsPassportCount);
-    System.out.println("#2:" + validPassportCount);
   }
 
   public void buildPassport(HashMap<String, String> passport, String[] keyVals) {

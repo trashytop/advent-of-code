@@ -21,7 +21,7 @@ public class Day2 implements Day {
   }
 
   public void solve() throws IOException {
-    lines = Util.buildArrayOfLinesFromFile("advent2020/day2/input.txt");
+    lines = Util.extractLinesFromFile("advent2020/day2/input.txt");
 
     Predicate<PasswordWithSpec> passwordChecker1 = (passwordWithSpec -> {
       long count = passwordWithSpec.password.chars().filter(ch -> ch == passwordWithSpec.letter).count();

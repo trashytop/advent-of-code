@@ -1,10 +1,10 @@
 package trashytop.adventofcode.advent2020;
 
-import trashytop.adventofcode.Day;
-import trashytop.adventofcode.Util;
-
 import java.io.IOException;
 import java.util.List;
+
+import trashytop.adventofcode.Day;
+import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/3
 public class Day3 implements Day {
@@ -17,7 +17,7 @@ public class Day3 implements Day {
   }
 
   public void solve() throws IOException {
-    lines = Util.buildArrayOfLinesFromFile("advent2020/day3/input.txt");
+    lines = Util.extractLinesFromFile("advent2020/day3/input.txt");
     gridWidth = lines.get(0).length();
 
     int right1_down1 = calcNumberOfTreesHit(1, 1);
@@ -25,8 +25,8 @@ public class Day3 implements Day {
     int right5_down1 = calcNumberOfTreesHit(5, 1);
     int right7_down1 = calcNumberOfTreesHit(7, 1);
     int right1_down2 = calcNumberOfTreesHit(1, 2);
-    System.out.println("#1:" + right3_down1);
-    System.out.println("#2:" + right1_down1 * right3_down1 * right5_down1 * right7_down1 * right1_down2);
+    System.out.println("#1: Trees:" + right3_down1);
+    System.out.println("#2: Trees multiplied:" + right1_down1 * right3_down1 * right5_down1 * right7_down1 * right1_down2);
   }
 
   public int calcNumberOfTreesHit(int right, int down) {
