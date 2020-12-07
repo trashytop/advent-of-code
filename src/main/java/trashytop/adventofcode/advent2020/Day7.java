@@ -39,7 +39,7 @@ public class Day7 implements Day {
     System.out.println("#1: Number of bag colours with at least one shiny gold bag: " + matchingBagCount);
 
     int insideBagCount = getNumberOfBags(bagToMatch) - 1; // subtract the outer bag
-    System.out.println("#1: Number of bags within a single shiny gold bag: " + insideBagCount);
+    System.out.println("#2: Number of bags within a single shiny gold bag: " + insideBagCount);
   }
 
   // return number of matching bags found
