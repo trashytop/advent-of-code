@@ -25,7 +25,7 @@ public class Day1 implements Day {
         int n1 = numbers.get(index1);
         int n2 = numbers.get(index2);
         if (n1 + n2 == 2020) {
-          System.out.println("#1: product:" + (n1 * n2));
+          System.out.println("#1: Product:" + (n1 * n2));
           break loopDouble;
         }
       }
@@ -40,7 +40,7 @@ public class Day1 implements Day {
           int n2 = numbers.get(index2);
           int n3 = numbers.get(index3);
           if (n1 + n2 + n3 == 2020) {
-            System.out.println("#2: product:" + (n1 * n2 * n3));
+            System.out.println("#2: Product:" + (n1 * n2 * n3));
             break loopTriple;
           }
         }

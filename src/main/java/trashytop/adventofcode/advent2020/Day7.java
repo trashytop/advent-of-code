@@ -32,44 +32,28 @@ public class Day7 implements Day {
     Bag bagToMatch = new Bag("shiny", "gold");
     int matchingBagCount = 0;
     for (Bag bagToCheck : bagRules.keySet()) {
-      if (getNumberOfMatchingBags(bagToCheck, bagToMatch, 0) > 0) {
+      if (getNumberOfMatchingBags(bagToCheck, bagToMatch) > 0) {
         matchingBagCount++;
       }
     }
-    System.out.println("#1: number of bag colours with at least one shiny gold bag: " + matchingBagCount);
+    System.out.println("#1: Number of bag colours with at least one shiny gold bag: " + matchingBagCount);
 
-    int insideBagCount = getNumberOfBags(bagToMatch, 0) - 1; // subtract the outer bag
-    System.out.println("#1: number of bags within a single shiny gold bag: " + insideBagCount);
+    int insideBagCount = getNumberOfBags(bagToMatch) - 1; // subtract the outer bag
+    System.out.println("#1: Number of bags within a single shiny gold bag: " + insideBagCount);
   }
 
   // return number of matching bags found
-  public int getNumberOfMatchingBags(Bag bagToCheck, Bag bagToMatch, int depth) {
-    List<BagRule> rulesForBag = bagRules.get(bagToCheck);
-
-    int count = 0;
-    for (int i = 0; i < rulesForBag.size(); i++) {
-      BagRule rule = rulesForBag.get(i);
-      if (rule.bag.equals(bagToMatch)) {
-        count++;
-      } else {
-        count += getNumberOfMatchingBags(rulesForBag.get(i).bag, bagToMatch, depth + 1);
-      }
-    }
-
-    return count;
+  public int getNumberOfMatchingBags(Bag bagToCheck, Bag bagToMatch) {
+    return bagRules.get(bagToCheck).stream()
+        .mapToInt(rule -> (rule.bag.equals(bagToMatch) ? 1 : getNumberOfMatchingBags(rule.bag, bagToMatch)))
+        .sum();
   }
 
   // return number of bags
-  public int getNumberOfBags(Bag bagToCheck, int depth) {
-    List<BagRule> rulesForBag = bagRules.get(bagToCheck);
-
-    int count = 1;
-    for (int i = 0; i < rulesForBag.size(); i++) {
-      BagRule rule = rulesForBag.get(i);
-      count += rule.count * getNumberOfBags(rule.bag, depth + 1);
-    }
-
-    return count;
+  public int getNumberOfBags(Bag bagToCheck) {
+    return 1 + bagRules.get(bagToCheck).stream()
+        .mapToInt(rule -> rule.count * getNumberOfBags(rule.bag))
+        .sum();
   }
 
   public void buildBagRules(String bagLine) {
