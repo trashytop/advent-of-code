@@ -44,7 +44,7 @@ public class Day6 implements Day {
           countPeopleInCurrentGroup++;
         } else {
           processGroup(answers);
-          // clear down ready for next group in file
+          // clear down, ready for next group in file
           answers = new HashMap<>();
           countPeopleInCurrentGroup = 0;
         }

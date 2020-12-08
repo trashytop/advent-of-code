@@ -43,7 +43,7 @@ public class Day8 implements Day {
           set(op, new Instruction(NOP, instruction.operand));
         }
         result = runProgram();
-        if (!result.repeat) {
+        if (!result.instructionWasRepeated) {
           System.out.println("#2: value of accumulator:" + result.accumulator);
           break;
         }
@@ -93,9 +93,7 @@ public class Day8 implements Day {
   }
 
   private void clearExecutedFlags() {
-    for (Instruction instruction1 : program) {
-      instruction1.executed = false;
-    }
+    program.forEach((instruction) -> instruction.executed = false);
   }
 
   public List<Instruction> extractInstructionsFromFile(String fileName) throws FileNotFoundException {
@@ -129,7 +127,7 @@ public class Day8 implements Day {
     @NonNull
     private int accumulator;
     @NonNull
-    private boolean repeat;
+    private boolean instructionWasRepeated;
   }
 
 }
