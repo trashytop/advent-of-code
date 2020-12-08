@@ -15,6 +15,10 @@ import trashytop.adventofcode.Util;
 // https://adventofcode.com/2020/day/8
 public class Day8 implements Day {
 
+  private static final String NOP = "NOP";
+  private static final String JMP = "JMP";
+  private static final String ACC = "ACC";
+
   private List<Instruction> program;
 
   public String getName() {
@@ -31,12 +35,12 @@ public class Day8 implements Day {
     Instruction oldInstruction;
     while (op < program.size()) {
       Instruction instruction = get(op);
-      if (instruction.operator != "acc") {
+      if (!ACC.equals(instruction.operator)) {
         oldInstruction = instruction;
-        if (instruction.operator == "nop") {
-          set(op, new Instruction("jmp", instruction.operand));
+        if (NOP.equals(instruction.operator)) {
+          set(op, new Instruction(JMP, instruction.operand));
         } else {
-          set(op, new Instruction("nop", instruction.operand));
+          set(op, new Instruction(NOP, instruction.operand));
         }
         result = runProgram();
         if (!result.repeat) {
@@ -62,15 +66,15 @@ public class Day8 implements Day {
       if (instruction.executed) {
         return new ProgramResult(accumulator, true);
       }
-      switch (instruction.operator) {
-        case "nop":
+      switch (instruction.operator.toUpperCase()) {
+        case NOP:
           op++;
           break;
-        case "acc":
+        case ACC:
           accumulator = accumulator + instruction.operand;
           op++;
           break;
-        case "jmp":
+        case JMP:
           op = op + instruction.operand;
           break;
         default:
