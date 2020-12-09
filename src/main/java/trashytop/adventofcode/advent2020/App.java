@@ -11,7 +11,7 @@ public class App {
   public static void main(String[] args) {
     List<Day> days = new ArrayList<>(
         //List.of(new Day1(), new Day2(), new Day3(), new Day4(), new Day5(), new Day6(), new Day7(), new Day8()));
-        List.of(new Day8()));
+        List.of(new Day9()));
     solve(days);
   }
 
