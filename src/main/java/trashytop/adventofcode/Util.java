@@ -58,7 +58,7 @@ public class Util {
     return lines;
   }
 
-  // extract Rs from a file containing Ts (Ts split using regex)
+  // extract Rs from a file containing something that can be split using regex
   public <R> List<R> extractGenericFromFile(String fileName, String splitRegex, Function<String, R> mapper) throws FileNotFoundException {
     File file = getFile(fileName);
 
