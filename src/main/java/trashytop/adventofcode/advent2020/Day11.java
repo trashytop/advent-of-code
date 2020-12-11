@@ -18,6 +18,7 @@ public class Day11 implements Day {
 
   private static final char VACANT_SEAT = 'L';
   private static final char OCCUPIED_SEAT = '#';
+  private static final char FLOOR = '.';
   private static final int INFINITE_DISTANCE = -1;
   private static final int LEFT = -1;
   private static final int RIGHT = 1;
@@ -33,7 +34,8 @@ public class Day11 implements Day {
   }
 
   public void solve() throws IOException {
-    extractFromFile("advent2020/day11/input.txt");
+    String fileName = "advent2020/day11/input.txt";
+    extractFromFile(fileName);
     gridHeight = grid.size();
     gridWidth = grid.get(0).size();
 
@@ -47,7 +49,7 @@ public class Day11 implements Day {
 
     // rebuild grid
     grid = new ArrayList<>();
-    extractFromFile("advent2020/day11/input.txt");
+    extractFromFile(fileName);
 
     do {
       changes = nextGen(5, INFINITE_DISTANCE);
@@ -117,20 +119,22 @@ public class Day11 implements Day {
     for (int y = 0; y < gridHeight; y++) {
       for (int x = 0; x < gridWidth; x++) {
         char current = grid.get(y).get(x);
-        int occupied = 0;
-        if (isDirectionOccupied(x, y, 0, UP, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, RIGHT, UP, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, RIGHT, 0, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, RIGHT, DOWN, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, 0, DOWN, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, LEFT, DOWN, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, LEFT, 0, distanceCheck)) occupied++;
-        if (isDirectionOccupied(x, y, LEFT, UP, distanceCheck)) occupied++;
+        if (current != FLOOR) {
+          int occupied = 0;
+          if (isDirectionOccupied(x, y, 0, UP, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, RIGHT, UP, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, RIGHT, 0, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, RIGHT, DOWN, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, 0, DOWN, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, LEFT, DOWN, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, LEFT, 0, distanceCheck)) occupied++;
+          if (isDirectionOccupied(x, y, LEFT, UP, distanceCheck)) occupied++;
 
-        if (current == VACANT_SEAT && occupied == 0) {
-          changes.add(new Change(x, y, OCCUPIED_SEAT));
-        } else if (current == OCCUPIED_SEAT && occupied >= seatOccupancyTolerance) {
-          changes.add(new Change(x, y, VACANT_SEAT));
+          if (current == VACANT_SEAT && occupied == 0) {
+            changes.add(new Change(x, y, OCCUPIED_SEAT));
+          } else if (current == OCCUPIED_SEAT && occupied >= seatOccupancyTolerance) {
+            changes.add(new Change(x, y, VACANT_SEAT));
+          }
         }
       }
     }
