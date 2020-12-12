@@ -1,6 +1,7 @@
 package trashytop.adventofcode.advent2020;
 
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 import java.io.IOException;
@@ -13,11 +14,7 @@ public class Day9 implements Day {
 
   private List<Integer> numbers;
 
-  public String getName() {
-    return "Day 9: Encoding Error";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     numbers = Util.extractIntegersFromFile("advent2020/day9/input.txt");
 
     boolean exit = false;
@@ -28,9 +25,10 @@ public class Day9 implements Day {
         exit = true;
       }
     }
-    System.out.println("#1: invalid number:" + invalidNumber);
 
-    findContiguousSet(invalidNumber);
+    int sumMinMax = findContiguousSet(invalidNumber);
+
+    return new DayResult("Encoding Error", invalidNumber, sumMinMax);
   }
 
   private boolean isInvalidNumber(int index) {
@@ -44,7 +42,7 @@ public class Day9 implements Day {
     return true;
   }
 
-  private void findContiguousSet(int number) {
+  private int findContiguousSet(int number) {
     for (int i = 0; i < numbers.size(); i++) {
       int p = numbers.get(i);
       int min, max, sum;
@@ -58,10 +56,10 @@ public class Day9 implements Day {
         j++;
       }
       if (sum == number) {
-        System.out.println("#2: encryption weakness:" + (min + max));
-        return;
+        return min + max;
       }
     }
+    return 0;
   }
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.NonNull;
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/5
@@ -16,11 +17,7 @@ public class Day5 implements Day {
   private static final int MAX_POSSIBLE_SEAT_ID = 127 * 8 + 5;
   private List<String> passes;
 
-  public String getName() {
-    return "Day 5: Binary Boarding";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     passes = Util.extractLinesFromFile("advent2020/day5/input.txt");
 
     boolean[] seats = new boolean[MAX_POSSIBLE_SEAT_ID];
@@ -37,14 +34,15 @@ public class Day5 implements Day {
       seats[seatId] = true;
     }
 
-    System.out.println("#1: Highest seat ID:" + maxSeatId);
-
+    int mySeatId = 0;
     for (int i = minSeatId; i < maxSeatId; i++) {
-      if (seats[i] == false) {
-        System.out.println("#2: My seat ID:" + i);
+      if (!seats[i]) {
+        mySeatId = i;
         break;
       }
     }
+
+    return new DayResult("Binary Boarding", maxSeatId, mySeatId);
   }
 
   private void fixSpace(Space space, char lowerHalfLetter, char letter) {

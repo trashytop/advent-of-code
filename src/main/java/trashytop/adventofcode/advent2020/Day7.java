@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import lombok.Data;
 import lombok.NonNull;
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/7
@@ -18,11 +19,7 @@ public class Day7 implements Day {
   private List<String> bagLines;
   HashMap<Bag, List<BagRule>> bagRules = new HashMap<>();
 
-  public String getName() {
-    return "Day 7: Handy Haversacks";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     bagLines = Util.extractLinesFromFile("advent2020/day7/input.txt");
 
     for (String bagLine : bagLines) {
@@ -36,10 +33,10 @@ public class Day7 implements Day {
         matchingBagCount++;
       }
     }
-    System.out.println("#1: Number of bag colours with at least one shiny gold bag: " + matchingBagCount);
 
     int insideBagCount = getNumberOfBags(bagToMatch) - 1; // subtract the outer bag
-    System.out.println("#2: Number of bags within a single shiny gold bag: " + insideBagCount);
+
+    return new DayResult("Handy Haversacks", matchingBagCount, insideBagCount);
   }
 
   // return number of matching bags found

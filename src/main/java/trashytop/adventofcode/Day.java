@@ -1,10 +1,7 @@
 package trashytop.adventofcode;
 
-import java.io.IOException;
+import java.util.concurrent.Callable;
 
-// simple interface so we can use days interchangeably
-public interface Day {
-  String getName();
 
-  void solve() throws IOException;
-}
+// simple abstract class so we can use days interchangeably
+public interface Day extends Callable<DayResult> {}

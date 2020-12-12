@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import lombok.Data;
 import lombok.NonNull;
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/2
@@ -16,18 +17,14 @@ public class Day2 implements Day {
 
   private List<String> lines;
 
-  public String getName() {
-    return "Day 2: Password Philosophy";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     lines = Util.extractLinesFromFile("advent2020/day2/input.txt");
 
     Predicate<PasswordWithSpec> passwordChecker1 = (passwordWithSpec -> {
       long count = passwordWithSpec.password.chars().filter(ch -> ch == passwordWithSpec.letter).count();
       return (count >= passwordWithSpec.minTimesLetterMustAppear && count <= passwordWithSpec.maxTimesLetterMustAppear);
     });
-    System.out.println("#1: Valid password count:" + getCount(passwordChecker1));
+    long count1 = getCount(passwordChecker1);
 
     Predicate<PasswordWithSpec> passwordChecker2 = (passwordWithSpec -> {
       Boolean pos1Match = passwordWithSpec.password.charAt(passwordWithSpec.minTimesLetterMustAppear - 1) ==
@@ -36,7 +33,9 @@ public class Day2 implements Day {
           passwordWithSpec.letter;
       return ((pos1Match || pos2Match) && !(pos1Match && pos2Match));
     });
-    System.out.println("#2: Valid password count:" + getCount(passwordChecker2));
+    long count2 = getCount(passwordChecker2);
+
+    return new DayResult("Password Philosophy", count1, count2);
   }
 
   private long getCount(Predicate<PasswordWithSpec> passwordChecker) {

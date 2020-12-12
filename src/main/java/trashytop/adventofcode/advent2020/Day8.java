@@ -10,6 +10,7 @@ import java.util.Scanner;
 import lombok.Data;
 import lombok.NonNull;
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/8
@@ -21,15 +22,12 @@ public class Day8 implements Day {
 
   private List<Instruction> program;
 
-  public String getName() {
-    return "Day 8: Handheld Halting";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     program = extractInstructionsFromFile("advent2020/day8/input.txt");
 
-    ProgramResult result = runProgram();
-    System.out.println("#1: value of accumulator:" + result.accumulator);
+    DayResult dayResult = new DayResult("Handheld Halting", 0,0);
+
+    dayResult.setPart1(runProgram().accumulator);
 
     int op = 0;
     Instruction oldInstruction;
@@ -42,9 +40,9 @@ public class Day8 implements Day {
         } else {
           set(op, new Instruction(NOP, instruction.operand));
         }
-        result = runProgram();
+        ProgramResult result = runProgram();
         if (!result.instructionWasRepeated) {
-          System.out.println("#2: value of accumulator:" + result.accumulator);
+          dayResult.setPart2(result.accumulator);
           break;
         }
         // restore program
@@ -53,6 +51,8 @@ public class Day8 implements Day {
       }
       op++;
     }
+
+    return dayResult;
   }
 
   private ProgramResult runProgram() {

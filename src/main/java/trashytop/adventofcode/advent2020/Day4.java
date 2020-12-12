@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/4
@@ -16,11 +17,7 @@ public class Day4 implements Day {
   private int requiredFieldsPassportCount = 0;
   private int validPassportCount = 0;
 
-  public String getName() {
-    return "Day 4: Passport Processing";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     File file = Util.getFile("advent2020/day4/input.txt");
 
     // build passports from file
@@ -44,8 +41,7 @@ public class Day4 implements Day {
     // process last passport
     processPassport(passport);
 
-    System.out.println("#1: Valid passport count:" + requiredFieldsPassportCount);
-    System.out.println("#2: Valid passport count:" + validPassportCount);
+    return new DayResult("Passport Processing", requiredFieldsPassportCount, validPassportCount);
   }
 
   public void processPassport(HashMap<String, String> passport) {

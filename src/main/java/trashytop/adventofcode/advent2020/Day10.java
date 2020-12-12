@@ -1,6 +1,7 @@
 package trashytop.adventofcode.advent2020;
 
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 import java.io.IOException;
@@ -20,11 +21,7 @@ public class Day10 implements Day {
   int[] differences = new int[MAX_DIFF_JOLTS + 1];
   private final Map<Integer, Long> pathCounts = new HashMap<>();
 
-  public String getName() {
-    return "Day 10: Adapter Array";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     adapters = Util.extractIntegersFromFile("advent2020/day10/input.txt");
     Collections.sort(adapters);
 
@@ -33,10 +30,10 @@ public class Day10 implements Day {
     adapters.add(adapters.get(adapters.size() - 1) + DEVICE_ADAPTER_JOLTS);
 
     calcDifferences();
-    System.out.println("#1: product of differences:" + differences[1] * differences[3]);
-
+    int sumDifferences = differences[1] * differences[3];
     long pathCount = countPaths(adapters);
-    System.out.println("#2: total distinct ways:" + pathCount);
+
+    return new DayResult("Adapter Array", sumDifferences, pathCount);
   }
 
   private void calcDifferences() {

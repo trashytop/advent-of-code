@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/6
@@ -16,11 +17,7 @@ public class Day6 implements Day {
   private int countAnyone = 0;
   private int countPeopleInCurrentGroup = 0;
 
-  public String getName() {
-    return "Day 6: Custom Customs";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     File file = Util.getFile("advent2020/day6/input.txt");
 
     // build answers from file
@@ -55,8 +52,7 @@ public class Day6 implements Day {
     // process last group
     processGroup(answers);
 
-    System.out.println("#1: Sum anyone:" + countAnyone);
-    System.out.println("#2: Sum everyone:" + countEveryone);
+    return new DayResult("Custom Customs", countAnyone, countEveryone);
   }
 
   private void processGroup(HashMap<Character, Integer> answers) {

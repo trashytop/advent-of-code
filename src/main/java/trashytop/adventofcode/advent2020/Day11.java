@@ -3,6 +3,7 @@ package trashytop.adventofcode.advent2020;
 import lombok.Data;
 import lombok.NonNull;
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 import java.awt.Point;
@@ -31,38 +32,36 @@ public class Day11 implements Day {
   int gridHeight;
   int gridWidth;
 
-  public String getName() {
-    return "Day 11: Seating System";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     String fileName = "advent2020/day11/input.txt";
     extractFromFile(fileName);
     gridHeight = grid.size();
     gridWidth = grid.get(0).size();
 
     int changes;
+    DayResult dayResult = new DayResult("Seating System",0,0);
 
     do {
       changes = nextGen(4, 1);
     }
     while (changes > 0);
-    System.out.println("#1: occupied seat count:" + getOccupiedCount());
+    dayResult.setPart1(getOccupiedCount());
 
     // rebuild grid
     grid = new ArrayList<>();
     extractFromFile(fileName);
-
     do {
       changes = nextGen(5, INFINITE_DISTANCE);
     }
     while (changes > 0);
-    System.out.println("#2: occupied seat count:" + getOccupiedCount());
+    dayResult.setPart2(getOccupiedCount());
+
+    return dayResult;
   }
 
   public void printGrid() {
-    for (int i = 0; i < grid.size(); i++) {
-      grid.get(i).forEach(System.out::print);
+    for (List<Character> characters : grid) {
+      characters.forEach(System.out::print);
       System.out.println();
     }
     System.out.println();

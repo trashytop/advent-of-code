@@ -11,6 +11,7 @@ import java.util.Scanner;
 import lombok.Data;
 import lombok.NonNull;
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2020/day/12
@@ -26,18 +27,13 @@ public class Day12 implements Day {
 
   private List<Instruction> program;
 
-  public String getName() {
-    return "Day 12: Rain Risk";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
     program = extractInstructionsFromFile("advent2020/day12/input.txt");
 
-    ProgramResult result = runProgramForPart1();
-    System.out.println("#1: Manhattan distance:" + result.manhattanDistance);
+    ProgramResult result1 = runProgramForPart1();
+    ProgramResult result2 = runProgramForPart2();
 
-    result = runProgramForPart2();
-    System.out.println("#2: Manhattan distance:" + result.manhattanDistance);
+    return new DayResult("Rain Risk", result1.manhattanDistance, result2.manhattanDistance);
   }
 
   private char rotateShip90(char currentDirection) {

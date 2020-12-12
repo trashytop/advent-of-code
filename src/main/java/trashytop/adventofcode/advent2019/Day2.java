@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import trashytop.adventofcode.Day;
+import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
 // https://adventofcode.com/2019/day/2
@@ -13,22 +14,19 @@ public class Day2 implements Day {
 
   private List<Integer> program;
 
-  public String getName() {
-    return "Day 2: 1202 Program Alarm";
-  }
-
-  public void solve() throws IOException {
+  public DayResult call() throws IOException {
 
     program = Util.extractGenericFromFile("advent2019/day2/input.txt", ",", Integer::parseInt);
 
     // deep copy
     List<Integer> programCopy = new ArrayList<>(program);
 
+    DayResult dayResult = new DayResult("1202 Program Alarm", 0,0);
     // reset state to just before the last computer caught fire
     set(1, 12);
     set(2, 2);
     runProgram();
-    System.out.println("#1: Value at position 0:" + get(0));
+    dayResult.setPart1(get(0));
 
     loopDouble:
     for (int noun = 0; noun <= 99; noun++) {
@@ -38,11 +36,13 @@ public class Day2 implements Day {
         set(2, verb);
         runProgram();
         if (get(0) == 19690720) {
-          System.out.println("#2: 100 * noun + verb:" + (100 * noun + verb));
+          dayResult.setPart2(100 * noun + verb);
           break loopDouble;
         }
       }
     }
+
+    return dayResult;
   }
 
   private void runProgram() {
