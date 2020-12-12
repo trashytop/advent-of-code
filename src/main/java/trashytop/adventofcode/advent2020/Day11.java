@@ -5,6 +5,7 @@ import lombok.NonNull;
 import trashytop.adventofcode.Day;
 import trashytop.adventofcode.Util;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class Day11 implements Day {
   private static final int RIGHT = 1;
   private static final int UP = -1;
   private static final int DOWN = 1;
+  private static final int STAY = 0;
 
   List<List<Character>> grid = new ArrayList<>();
   int gridHeight;
@@ -113,6 +115,14 @@ public class Day11 implements Day {
     return occupied;
   }
 
+  private boolean changeToOccupiedNotPossible(int occupied) {
+    return (occupied > 0);
+  }
+
+  private boolean changeToVacantInevitable(int seatOccupancyTolerance, int occupied) {
+    return (occupied >= seatOccupancyTolerance);
+  }
+
   private int nextGen(int seatOccupancyTolerance, int distanceCheck) {
     List<Change> changes = new ArrayList<>();
 
@@ -121,15 +131,22 @@ public class Day11 implements Day {
         char current = grid.get(y).get(x);
         if (current != FLOOR) {
           int occupied = 0;
-          if (isDirectionOccupied(x, y, 0, UP, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, RIGHT, UP, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, RIGHT, 0, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, RIGHT, DOWN, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, 0, DOWN, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, LEFT, DOWN, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, LEFT, 0, distanceCheck)) occupied++;
-          if (isDirectionOccupied(x, y, LEFT, UP, distanceCheck)) occupied++;
 
+          // try all 8 directions
+          List<Point> deltas = new ArrayList<>(
+              List.of(new Point(STAY, UP), new Point(RIGHT, UP), new Point(RIGHT, STAY), new Point(RIGHT, DOWN),
+                  new Point(STAY, DOWN), new Point(LEFT, DOWN), new Point(LEFT, STAY), new Point(LEFT, UP)));
+          for (Point delta : deltas) {
+            if (isDirectionOccupied(x, y, delta.x, delta.y, distanceCheck)) occupied++;
+            if (current == VACANT_SEAT && changeToOccupiedNotPossible(occupied)) {
+              break;
+            }
+            if (current == OCCUPIED_SEAT && changeToVacantInevitable(seatOccupancyTolerance, occupied)) {
+              break;
+            }
+          }
+
+          // add change
           if (current == VACANT_SEAT && occupied == 0) {
             changes.add(new Change(x, y, OCCUPIED_SEAT));
           } else if (current == OCCUPIED_SEAT && occupied >= seatOccupancyTolerance) {
