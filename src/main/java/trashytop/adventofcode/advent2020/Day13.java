@@ -6,22 +6,17 @@ import trashytop.adventofcode.Day;
 import trashytop.adventofcode.DayResult;
 import trashytop.adventofcode.Util;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
-import java.util.OptionalLong;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicLong;
 
 // https://adventofcode.com/2020/day/13
 public class Day13 implements Day {
-
-  private static final char NORTH = 'N';
-
+  
   private int earliestDepartTimestamp;
   private final List<Bus> buses = new ArrayList<>();
 
