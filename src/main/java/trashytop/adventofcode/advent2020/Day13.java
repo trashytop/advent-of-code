@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 // https://adventofcode.com/2020/day/13
 public class Day13 implements Day {
-  
+
   private int earliestDepartTimestamp;
   private final List<Bus> buses = new ArrayList<>();
 
@@ -58,6 +58,15 @@ public class Day13 implements Day {
   }
 
   private long findEarliestTimestamp() {
+    // this algorithm only works for primes, so exit if a non-prime is found in our input
+    if (buses.stream().anyMatch(b -> !Util.isPrime(b.id))) return -1;
+
+    // worked example for input of 67,7,x,59,61
+    //   LCM for two primes p,q is pxq
+    //   t = 335, when t mod 67 == 0 and (t+1) mod 7 == 0, using increment of 67
+    //   t = 16281, when (t+3) mod 59 == 0, using increment of 335
+    //   t = 1261476, when (t+4) mod 61 == 0, using increment of 16281
+
     long ts = 0;
     long inc = buses.get(0).id;
     for (int i = 1; i < buses.size(); i++) {
