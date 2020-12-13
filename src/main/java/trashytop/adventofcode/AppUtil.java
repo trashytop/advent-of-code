@@ -15,17 +15,16 @@ public class AppUtil {
 
     List<CompletableFuture<DayResult>> futures = new ArrayList<>();
     for (Callable<DayResult> day : days) {
-      CompletableFuture<DayResult> i = CompletableFuture.supplyAsync(() -> {
+      CompletableFuture<DayResult> future = CompletableFuture.supplyAsync(() -> {
         try {
           DayResult dayResult = day.call();
-          System.out.println(day.getClass().getSimpleName() + ": " + dayResult.getDayName() +
-              ": " + dayResult.getPart1() + "," + dayResult.getPart2());
+          printResult(day, dayResult);
           return dayResult;
         } catch (Exception e) {
           throw new IllegalStateException(e);
         }
       });
-      futures.add(i);
+      futures.add(future);
     }
 
     // wait for all threads to finish
@@ -33,6 +32,11 @@ public class AppUtil {
 
     long endTime = System.nanoTime();
     System.out.println("*** Elapsed time:" + (endTime - startTime) / Math.pow(10, 6) + "ms");
+  }
+
+  public static void printResult(Callable<DayResult> day, DayResult dayResult) {
+    System.out.println(day.getClass().getSimpleName() + ": " + dayResult.getDayName() +
+        ": " + dayResult.getPart1() + "," + dayResult.getPart2());
   }
 
 }
