@@ -69,8 +69,8 @@ public class Util {
       if (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         List<R> partial = Arrays.stream(line.split(splitRegex))
-            .map(mapper)
-            .collect(Collectors.toList());
+          .map(mapper)
+          .collect(Collectors.toList());
         if (all == null) {
           all = partial;
         } else {
@@ -90,13 +90,39 @@ public class Util {
 
   public boolean isPrime(int n) {
     //check if n is a multiple of 2
-    if (n%2==0) return false;
+    if (n % 2 == 0) return false;
     //if not, then just check the odds
-    for(int i=3;i*i<=n;i+=2) {
-      if(n%i==0)
+    for (int i = 3; i * i <= n; i += 2) {
+      if (n % i == 0)
         return false;
     }
     return true;
+  }
+
+  public int calcCountOfIncreasingValues(List<Integer> values) {
+    int prev = Integer.MAX_VALUE; // ignore first measurement
+    int count = 0;
+    for (Integer value : values) {
+      if (value > prev) {
+        count++;
+      }
+      prev = value;
+    }
+    return count;
+  }
+
+  public List<Integer> calcSlidingWindowSums(int windowLen, List<Integer> values) {
+    List<Integer> sums = new ArrayList<>();
+    for (int valueIndex = 0; valueIndex < values.size(); valueIndex++) {
+      if (valueIndex <= values.size() - windowLen) {
+        int sum = 0;
+        for (int windowIndex = 0; windowIndex < windowLen; windowIndex++) {
+          sum += values.get(valueIndex + windowIndex);
+        }
+        sums.add(sum);
+      }
+    }
+    return sums;
   }
 
 }

@@ -15,6 +15,7 @@ public class AppUtil {
 
     List<CompletableFuture<DayResult>> futures = new ArrayList<>();
     for (Callable<DayResult> day : days) {
+      // run in separate thread immediately
       CompletableFuture<DayResult> future = CompletableFuture.supplyAsync(() -> {
         try {
           DayResult dayResult = day.call();
@@ -36,7 +37,7 @@ public class AppUtil {
 
   public static void printResult(Callable<DayResult> day, DayResult dayResult) {
     System.out.println(day.getClass().getSimpleName() + ": " + dayResult.getDayName() +
-        ": " + dayResult.getPart1() + "," + dayResult.getPart2());
+      ": " + dayResult.getPart1() + "," + dayResult.getPart2());
   }
 
 }
