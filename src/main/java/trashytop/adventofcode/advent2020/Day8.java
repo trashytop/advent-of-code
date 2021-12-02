@@ -2,6 +2,7 @@ package trashytop.adventofcode.advent2020;
 
 import lombok.Value;
 import trashytop.adventofcode.InstructionUtil;
+import trashytop.adventofcode.InstructionUtil.Instruction;
 import trashytop.adventofcode.Day;
 import trashytop.adventofcode.DayResult;
 
@@ -15,13 +16,13 @@ public class Day8 implements Day {
   private static final String JMP = "JMP";
   private static final String ACC = "ACC";
 
-  private List<InstructionUtil.Instruction> program;
+  private List<Instruction> program;
 
   public DayResult call() throws IOException {
     program = InstructionUtil.extractInstructionsFromFile("advent2020/day8/input.txt",
       s -> {
         String[] instruction = s.split(" ");
-        return new InstructionUtil.Instruction(instruction[0], Integer.parseInt(instruction[1]));
+        return new Instruction(instruction[0], Integer.parseInt(instruction[1]));
       });
 
     DayResult dayResult = new DayResult("Handheld Halting", 0, 0);
@@ -29,15 +30,15 @@ public class Day8 implements Day {
     dayResult.setPart1(runProgram().accumulator);
 
     int op = 0;
-    InstructionUtil.Instruction oldInstruction;
+    Instruction oldInstruction;
     while (op < program.size()) {
-      InstructionUtil.Instruction instruction = get(op);
+      Instruction instruction = get(op);
       if (!ACC.equals(instruction.operator)) {
         oldInstruction = instruction;
         if (NOP.equals(instruction.operator)) {
-          set(op, new InstructionUtil.Instruction(JMP, instruction.operand));
+          set(op, new Instruction(JMP, instruction.operand));
         } else {
-          set(op, new InstructionUtil.Instruction(NOP, instruction.operand));
+          set(op, new Instruction(NOP, instruction.operand));
         }
         ProgramResult result = runProgram();
         if (!result.instructionWasRepeated) {
@@ -61,7 +62,7 @@ public class Day8 implements Day {
       if (op == program.size()) {
         return new ProgramResult(accumulator, false);
       }
-      InstructionUtil.Instruction instruction = get(op);
+      Instruction instruction = get(op);
       if (instruction.executed) {
         return new ProgramResult(accumulator, true);
       }
@@ -83,11 +84,11 @@ public class Day8 implements Day {
     }
   }
 
-  private InstructionUtil.Instruction get(int index) {
+  private Instruction get(int index) {
     return program.get(index);
   }
 
-  private void set(int index, InstructionUtil.Instruction instruction) {
+  private void set(int index, Instruction instruction) {
     program.set(index, instruction);
   }
 

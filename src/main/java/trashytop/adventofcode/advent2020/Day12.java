@@ -2,6 +2,7 @@ package trashytop.adventofcode.advent2020;
 
 import lombok.Value;
 import trashytop.adventofcode.InstructionUtil;
+import trashytop.adventofcode.InstructionUtil.Instruction;
 import trashytop.adventofcode.Day;
 import trashytop.adventofcode.DayResult;
 
@@ -20,11 +21,11 @@ public class Day12 implements Day {
   private static final char RIGHT = 'R';
   private static final char FORWARD = 'F';
 
-  private List<InstructionUtil.Instruction> program;
+  private List<Instruction> program;
 
   public DayResult call() throws IOException {
     program = InstructionUtil.extractInstructionsFromFile("advent2020/day12/input.txt",
-      s -> new InstructionUtil.Instruction(s.substring(0, 1), Integer.parseInt(s.substring(1))));
+      s -> new Instruction(s.substring(0, 1), Integer.parseInt(s.substring(1))));
 
     ProgramResult result1 = runProgramForPart1();
     ProgramResult result2 = runProgramForPart2();
@@ -83,7 +84,7 @@ public class Day12 implements Day {
       if (op == program.size()) {
         return new ProgramResult(p, Math.abs(p.x) + Math.abs(p.y));
       }
-      InstructionUtil.Instruction instruction = get(op);
+      Instruction instruction = get(op);
       switch (instruction.operator.charAt(0)) {
         case NORTH:
           p.y += instruction.operand;
@@ -136,7 +137,7 @@ public class Day12 implements Day {
       if (op == program.size()) {
         return new ProgramResult(p, Math.abs(p.x) + Math.abs(p.y));
       }
-      InstructionUtil.Instruction instruction = get(op);
+      Instruction instruction = get(op);
       switch (instruction.operator.charAt(0)) {
         case NORTH:
           waypoint.point.y += instruction.operand;
@@ -167,7 +168,7 @@ public class Day12 implements Day {
     }
   }
 
-  private InstructionUtil.Instruction get(int index) {
+  private Instruction get(int index) {
     return program.get(index);
   }
 

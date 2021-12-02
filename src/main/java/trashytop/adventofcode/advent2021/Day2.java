@@ -2,6 +2,7 @@ package trashytop.adventofcode.advent2021;
 
 import lombok.Value;
 import trashytop.adventofcode.InstructionUtil;
+import trashytop.adventofcode.InstructionUtil.Instruction;
 import trashytop.adventofcode.Day;
 import trashytop.adventofcode.DayResult;
 
@@ -14,14 +15,14 @@ public class Day2 implements Day {
   private static final String FORWARD = "forward";
   private static final String DOWN = "down";
   private static final String UP = "up";
-  private List<InstructionUtil.Instruction> program;
+  private List<Instruction> program;
 
   public DayResult call() throws IOException {
 
     program = InstructionUtil.extractInstructionsFromFile("advent2021/day2/input.txt",
       s -> {
         String[] instruction = s.split(" ");
-        return new InstructionUtil.Instruction(instruction[0], Integer.parseInt(instruction[1]));
+        return new Instruction(instruction[0], Integer.parseInt(instruction[1]));
       });
 
     ProgramResult result = runProgram();
@@ -32,7 +33,7 @@ public class Day2 implements Day {
       (long) resultWithAim.horizontalPosition * resultWithAim.depth);
   }
 
-  private InstructionUtil.Instruction get(int index) {
+  private Instruction get(int index) {
     return program.get(index);
   }
 
@@ -44,7 +45,7 @@ public class Day2 implements Day {
       if (op == program.size()) {
         return new ProgramResult(horizontalPosition, depth);
       }
-      InstructionUtil.Instruction instruction = get(op);
+      Instruction instruction = get(op);
       switch (instruction.operator) {
         case FORWARD:
           horizontalPosition += instruction.operand;
@@ -74,7 +75,7 @@ public class Day2 implements Day {
       if (op == program.size()) {
         return new ProgramResultWithAim(horizontalPosition, depth, aim);
       }
-      InstructionUtil.Instruction instruction = get(op);
+      Instruction instruction = get(op);
       switch (instruction.operator) {
         case FORWARD:
           horizontalPosition += instruction.operand;
