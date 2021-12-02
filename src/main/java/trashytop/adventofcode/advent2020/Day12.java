@@ -1,18 +1,13 @@
 package trashytop.adventofcode.advent2020;
 
-import java.awt.Point;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import lombok.Data;
-import lombok.NonNull;
+import lombok.Value;
+import trashytop.adventofcode.InstructionUtil;
 import trashytop.adventofcode.Day;
 import trashytop.adventofcode.DayResult;
-import trashytop.adventofcode.Util;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.List;
 
 // https://adventofcode.com/2020/day/12
 public class Day12 implements Day {
@@ -25,10 +20,11 @@ public class Day12 implements Day {
   private static final char RIGHT = 'R';
   private static final char FORWARD = 'F';
 
-  private List<Instruction> program;
+  private List<InstructionUtil.Instruction> program;
 
   public DayResult call() throws IOException {
-    program = extractInstructionsFromFile("advent2020/day12/input.txt");
+    program = InstructionUtil.extractInstructionsFromFile("advent2020/day12/input.txt",
+      s -> new InstructionUtil.Instruction(s.substring(0, 1), Integer.parseInt(s.substring(1))));
 
     ProgramResult result1 = runProgramForPart1();
     ProgramResult result2 = runProgramForPart2();
@@ -87,39 +83,39 @@ public class Day12 implements Day {
       if (op == program.size()) {
         return new ProgramResult(p, Math.abs(p.x) + Math.abs(p.y));
       }
-      Instruction instruction = get(op);
-      switch (instruction.action) {
+      InstructionUtil.Instruction instruction = get(op);
+      switch (instruction.operator.charAt(0)) {
         case NORTH:
-          p.y += instruction.value;
+          p.y += instruction.operand;
           break;
         case SOUTH:
-          p.y -= instruction.value;
+          p.y -= instruction.operand;
           break;
         case EAST:
-          p.x += instruction.value;
+          p.x += instruction.operand;
           break;
         case WEST:
-          p.x -= instruction.value;
+          p.x -= instruction.operand;
           break;
         case LEFT:
-          direction = rotateShip(direction, -instruction.value);
+          direction = rotateShip(direction, -instruction.operand);
           break;
         case RIGHT:
-          direction = rotateShip(direction, instruction.value);
+          direction = rotateShip(direction, instruction.operand);
           break;
         case FORWARD:
           switch (direction) {
             case NORTH:
-              p.y += instruction.value;
+              p.y += instruction.operand;
               break;
             case SOUTH:
-              p.y -= instruction.value;
+              p.y -= instruction.operand;
               break;
             case EAST:
-              p.x += instruction.value;
+              p.x += instruction.operand;
               break;
             case WEST:
-              p.x -= instruction.value;
+              p.x -= instruction.operand;
               break;
             default:
               throw new IllegalArgumentException("Illegal operator for FORWARD at " + op + ":" + instruction);
@@ -140,29 +136,29 @@ public class Day12 implements Day {
       if (op == program.size()) {
         return new ProgramResult(p, Math.abs(p.x) + Math.abs(p.y));
       }
-      Instruction instruction = get(op);
-      switch (instruction.action) {
+      InstructionUtil.Instruction instruction = get(op);
+      switch (instruction.operator.charAt(0)) {
         case NORTH:
-          waypoint.point.y += instruction.value;
+          waypoint.point.y += instruction.operand;
           break;
         case SOUTH:
-          waypoint.point.y -= instruction.value;
+          waypoint.point.y -= instruction.operand;
           break;
         case EAST:
-          waypoint.point.x += instruction.value;
+          waypoint.point.x += instruction.operand;
           break;
         case WEST:
-          waypoint.point.x -= instruction.value;
+          waypoint.point.x -= instruction.operand;
           break;
         case LEFT:
-          waypoint = rotateWaypoint(waypoint, -instruction.value);
+          waypoint = rotateWaypoint(waypoint, -instruction.operand);
           break;
         case RIGHT:
-          waypoint = rotateWaypoint(waypoint, instruction.value);
+          waypoint = rotateWaypoint(waypoint, instruction.operand);
           break;
         case FORWARD:
-          p.x += instruction.value * waypoint.point.x;
-          p.y += instruction.value * waypoint.point.y;
+          p.x += instruction.operand * waypoint.point.x;
+          p.y += instruction.operand * waypoint.point.y;
           break;
         default:
           throw new IllegalArgumentException("Illegal operator at " + op + ":" + instruction);
@@ -171,50 +167,21 @@ public class Day12 implements Day {
     }
   }
 
-  private Instruction get(int index) {
+  private InstructionUtil.Instruction get(int index) {
     return program.get(index);
   }
 
-  public List<Instruction> extractInstructionsFromFile(String fileName) throws FileNotFoundException {
-    File file = Util.getFile(fileName);
-
-    Scanner scanner = new Scanner(file);
-    List<Instruction> instructions = new ArrayList<>();
-    while (scanner.hasNext()) {
-      if (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        instructions.add(new Instruction(line.charAt(0), Integer.parseInt(line.substring(1))));
-      } else {
-        scanner.next();
-      }
-    }
-    return instructions;
-  }
-
-  @Data
-  static class Instruction {
-    @NonNull
-    private char action;
-    @NonNull
-    private int value;
-  }
-
-  @Data
+  @Value
   static class ProgramResult {
-    @NonNull
-    private Point point;
-    @NonNull
-    private int manhattanDistance;
+    Point point;
+    int manhattanDistance;
   }
 
-  @Data
+  @Value
   static class Waypoint {
-    @NonNull
-    private char NorthOrSouth;
-    @NonNull
-    private char EastOrWest;
-    @NonNull
-    private Point point;
+    char NorthOrSouth;
+    char EastOrWest;
+    Point point;
   }
 
 }
