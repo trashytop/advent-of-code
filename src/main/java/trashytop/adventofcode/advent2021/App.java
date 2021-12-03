@@ -13,9 +13,9 @@ public class App {
 
     List<Callable<DayResult>> days = new ArrayList<>(
 //        List.of(
-//            new Day1(), new Day2()
+//            new Day1(), new Day2(), new Day3()
 //        ));
-    List.of(new Day2()));
+      List.of(new Day3()));
 
     AppUtil.solve(days);
   }

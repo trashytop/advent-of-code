@@ -1,10 +1,10 @@
 package trashytop.adventofcode.advent2021;
 
 import lombok.Value;
-import trashytop.adventofcode.InstructionUtil;
-import trashytop.adventofcode.InstructionUtil.Instruction;
 import trashytop.adventofcode.Day;
 import trashytop.adventofcode.DayResult;
+import trashytop.adventofcode.InstructionUtil;
+import trashytop.adventofcode.InstructionUtil.Instruction;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +37,7 @@ public class Day2 implements Day {
     return program.get(index);
   }
 
-  private Day2.ProgramResult runProgram() {
+  private ProgramResult runProgram() {
     int horizontalPosition = 0;
     int depth = 0;
     int op = 0;
