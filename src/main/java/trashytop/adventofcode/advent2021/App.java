@@ -12,10 +12,11 @@ public class App {
   public static void main(String[] args) {
 
     List<Callable<DayResult>> days = new ArrayList<>(
-//        List.of(
-//            new Day1(), new Day2(), new Day3()
-//        ));
-      List.of(new Day3()));
+      List.of(
+        new Day1(), new Day2(), new Day3()
+      ));
+
+    //List.of(new Day4()));
 
     AppUtil.solve(days);
   }

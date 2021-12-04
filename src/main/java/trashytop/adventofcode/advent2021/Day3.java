@@ -17,9 +17,7 @@ public class Day3 implements Day {
   private int oxygenGeneratorRating = 0;
   private int co2ScrubberRating = 0;
 
-  enum RatingType {
-    OXYGEN_GENERATOR, CO2_SCRUBBER
-  }
+  enum RatingType {OXYGEN_GENERATOR, CO2_SCRUBBER}
 
   public DayResult call() throws IOException {
 
@@ -35,10 +33,11 @@ public class Day3 implements Day {
   }
 
   private void calcRates() {
-    int numBinaryDigits = numbers.get(0).length();
-    int numNumbers = numbers.size();
-    int[] zeroCount = new int[numBinaryDigits];
+    int nBits = numbers.get(0).length();
+    int nNumbers = numbers.size();
+    int[] zeroCount = new int[nBits];
 
+    // calc "zero counts" for each bit
     for (String line : numbers) {
       char[] chars = line.toCharArray();
       for (int i = 0; i < chars.length; i++) {
@@ -49,13 +48,16 @@ public class Day3 implements Day {
     }
 
     for (int i = 0; i < zeroCount.length; i++) {
-      if (zeroCount[i] > numNumbers / 2) {
-        epsilonRate += 1 << numBinaryDigits - i - 1;
-      } else if (zeroCount[i] < numNumbers / 2) {
-        gammaRate += 1 << numBinaryDigits - i - 1;
+      if (zeroCount[i] > nNumbers / 2) {
+        // more 0s than 1s so add bit to epsilon rate
+        epsilonRate += 1 << nBits - i - 1;
+      } else if (zeroCount[i] < nNumbers / 2) {
+        // more 1s than 0s so add bit to gamma rate
+        gammaRate += 1 << nBits - i - 1;
       } else {
-        epsilonRate += 1 << numBinaryDigits - i - 1;
-        gammaRate += 1 << numBinaryDigits - i - 1;
+        // same number of 0s and 1s so add bit to both rates
+        epsilonRate += 1 << nBits - i - 1;
+        gammaRate += 1 << nBits - i - 1;
       }
     }
   }
@@ -91,18 +93,18 @@ public class Day3 implements Day {
     // find rating of the winner
     for (int l = 0; l < numbers.size(); l++) {
       if (possible[l]) {
+        int winner = Integer.parseInt(numbers.get(l), 2);
         if (ratingType == RatingType.OXYGEN_GENERATOR)
-          oxygenGeneratorRating = Integer.parseInt(numbers.get(l), 2);
+          oxygenGeneratorRating = winner;
         else
-          co2ScrubberRating = Integer.parseInt(numbers.get(l), 2);
+          co2ScrubberRating = winner;
       }
-
     }
 
   }
 
   // return if bit meets criteria or not
-  boolean isPossibleValue(RatingType ratingType, int zeroCount, int nPossible, int maskedVal) {
+  private boolean isPossibleValue(RatingType ratingType, int zeroCount, int nPossible, int maskedVal) {
     if (ratingType == RatingType.OXYGEN_GENERATOR) {
       // return true if bit matches most common value
       if (zeroCount > nPossible / 2) {
